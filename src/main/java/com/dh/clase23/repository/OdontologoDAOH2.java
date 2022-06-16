@@ -24,7 +24,6 @@ public class OdontologoDAOH2 implements IDao<Odontologo> {
             while(rs.next()){
                 odontologo = new Odontologo(rs.getInt(1),rs.getString(2),rs.getString(3), rs.getString(4));
                 listaOdontologos.add(odontologo);
-                System.out.println(listaOdontologos);
             }
 
         } catch (SQLException | ClassNotFoundException throwables) {
