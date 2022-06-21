@@ -25,6 +25,20 @@ public class TurnoController {
         return ResponseEntity.ok(turnoService.listarTurnos());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Turno> buscarTurno(@PathVariable int id){
+        ResponseEntity<Turno> response;
+        Turno turnoBuscado = turnoService.buscarTurno(id);
+        if(turnoBuscado != null){
+            response = ResponseEntity.ok(turnoBuscado);
+        }
+        else{
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return response;
+    }
+
     @PostMapping
     public ResponseEntity<Turno> registrarTurno(@RequestBody Turno turno){
         ResponseEntity<Turno> response;
@@ -34,42 +48,36 @@ public class TurnoController {
             response = ResponseEntity.ok(turnoService.guardarTurno(turno));
         }
         else{
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        return response;
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Turno> buscarTurno(@PathVariable int id){
-        /*ResponseEntity<Turno> response;
-        Turno turnoBuscado = turnoService.buscarTurno(id);
-        if(turnoBuscado != null){
-            response = ResponseEntity.ok(turnoBuscado);
-        }
-        else{
-            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }*/
-
-        return ResponseEntity.ok(turnoService.buscarTurno(id));
-
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity eliminarTurno(@PathVariable int id) {
-        ResponseEntity response = null;
-        if(buscarTurno(id) != null){
-            turnoService.eliminarTurno(id);
-            response = new ResponseEntity(HttpStatus.OK);
-        }
-        else{
-            response = new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
         return response;
     }
 
     @PutMapping
     public ResponseEntity<Turno> actualizarTurno(@RequestBody Turno turno){
-        return ResponseEntity.ok(turnoService.actualizarTurno(turno));
+        ResponseEntity<Turno> response;
+        Paciente pacienteBuscado = pacienteService.buscarXId(turno.getPaciente().getId());
+        Odontologo odontologoBuscado = odontologoService.buscarOdontologoXId(turno.getOdontologo().getId());
+        if(pacienteBuscado != null && odontologoBuscado != null){
+            response = ResponseEntity.ok(turnoService.actualizarTurno(turno));
+        }
+        else{
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return response;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminarTurno(@PathVariable int id) {
+        ResponseEntity<String> response = null;
+        if(buscarTurno(id) != null){
+            turnoService.eliminarTurno(id);
+            response = ResponseEntity.ok("Se eliminó el turno con id: "+id);
+        }
+        else{
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se eliminó el turno con id: "+id+" porque no fue encontrado");
+        }
+        return response;
     }
 }

@@ -164,6 +164,8 @@ public class PacienteDAOH2 implements IDao<Paciente>{
         Connection connection= null;
         try{
             connection = H2Aux.getConnection();
+            DomicilioDAOH2 domicilioDAOH2 = new DomicilioDAOH2();
+            domicilioDAOH2.actualizar(paciente.getDomicilio());
             PreparedStatement ps = connection.prepareStatement("UPDATE PACIENTES " +
                     "SET APELLIDO=?, NOMBRE=?, EMAIL=?, DNI=?, FECHA_INGRESO=? WHERE ID=?");
             ps.setString(1, paciente.getApellido());
@@ -171,7 +173,8 @@ public class PacienteDAOH2 implements IDao<Paciente>{
             ps.setString(3,paciente.getEmail());
             ps.setInt(4, paciente.getDni());
             ps.setDate(5, Date.valueOf(paciente.getFechaIngreso()));
-            ps.setInt(6, paciente.getDni());
+            ps.setInt(6, paciente.getDomicilio().getId());
+            ps.setInt(7, paciente.getId());
             ps.execute();
         }
         catch (SQLException | ClassNotFoundException throwables) {

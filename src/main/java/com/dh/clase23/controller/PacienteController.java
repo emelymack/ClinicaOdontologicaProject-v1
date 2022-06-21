@@ -1,8 +1,11 @@
 package com.dh.clase23.controller;
 
+import com.dh.clase23.dominio.Odontologo;
 import com.dh.clase23.dominio.Paciente;
 import com.dh.clase23.service.PacienteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +15,6 @@ import java.util.List;
 @RequestMapping("/pacientes")
 public class PacienteController {
     private PacienteServiceImpl pacienteService;
-
     @Autowired
     public PacienteController(PacienteServiceImpl pacienteService) {
         this.pacienteService = pacienteService;
@@ -24,8 +26,15 @@ public class PacienteController {
     }
 
     @GetMapping("/{pacienteId}")
-    public Paciente buscarXId(@PathVariable("pacienteId") int id){
-        return pacienteService.buscarXId(id);
+    public ResponseEntity<Paciente> buscarXId(@PathVariable("pacienteId") int id){
+        ResponseEntity<Paciente> response;
+        if(pacienteService.buscarXId(id) != null){
+            response = ResponseEntity.ok(pacienteService.buscarXId(id));
+        }
+        else {
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return response;
     }
 
     @PostMapping
@@ -33,12 +42,29 @@ public class PacienteController {
         return pacienteService.guardarPaciente(paciente);
     }
 
-    @DeleteMapping("/{pacienteId}")
-    public void eliminarPaciente(@PathVariable("pacienteId") int id){
-        pacienteService.eliminarPaciente(id);
-        // agregar algun msj para avisar que se eliminó correctamente?
+    @PutMapping
+    public ResponseEntity<Paciente> actualizarPaciente(@RequestBody Paciente paciente){
+        ResponseEntity<Paciente> response;
+        Paciente pacienteBuscado = pacienteService.buscarXId(paciente.getId());
+        if(pacienteBuscado != null){
+            response = ResponseEntity.ok(pacienteService.actualizarPaciente(paciente));
+        }
+        else{
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return response;
     }
 
+    @DeleteMapping("/{pacienteId}")
+    public ResponseEntity<String> eliminarPaciente(@PathVariable("pacienteId") int id){
+        if(pacienteService.buscarXId(id) != null){
+            pacienteService.eliminarPaciente(id);
+            return ResponseEntity.ok("Se eliminó al paciente con id: "+id);
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se eliminó el turno con id: "+id);
+        }
+    }
     /*
     pensado para las VISTAS
     @GetMapping
