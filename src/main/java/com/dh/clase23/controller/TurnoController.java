@@ -7,6 +7,7 @@ import com.dh.clase23.dominio.Odontologo;
 import com.dh.clase23.dominio.Paciente;
 import com.dh.clase23.dominio.Turno;
 import com.dh.clase23.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/turnos")
 public class TurnoController {
-    private ITurnoService turnoService = new TurnoServiceImpl(new TurnoDAO());
-    private IPacienteService pacienteService = new PacienteServiceImpl(new PacienteDAOH2());
-    private IOdontologoService odontologoService = new OdontologoServiceImpl(new OdontologoDAOH2());
+
+    // inyección directo en propiedad
+    @Autowired
+    private ITurnoService turnoService;
+    @Autowired
+    private IPacienteService pacienteService;
+    @Autowired
+    private IOdontologoService odontologoService;
 
     @GetMapping
     public ResponseEntity<List<Turno>> listarTurnos(){
@@ -48,7 +54,7 @@ public class TurnoController {
             response = ResponseEntity.ok(turnoService.guardarTurno(turno));
         }
         else{
-            response = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         return response;

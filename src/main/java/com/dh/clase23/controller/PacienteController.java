@@ -14,11 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/pacientes")
 public class PacienteController {
+
+    // inyección x setter
     private PacienteServiceImpl pacienteService;
     @Autowired
-    public PacienteController(PacienteServiceImpl pacienteService) {
-        this.pacienteService = pacienteService;
-    }
+    public void setPacienteService(PacienteServiceImpl pacienteService) { this.pacienteService = pacienteService; }
+
 
     @GetMapping
     public List<Paciente> listarPacientes(){

@@ -2,14 +2,20 @@ package com.dh.clase23.repository;
 
 import com.dh.clase23.dominio.Domicilio;
 import com.dh.clase23.dominio.Paciente;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class PacienteDAOH2 implements IDao<Paciente>{
+
+    @Autowired
+    public DomicilioDAOH2 domicilioDAOH2;
+
     @Override
     public List<Paciente> listarElementos() {
         Connection connection=null;
@@ -23,9 +29,7 @@ public class PacienteDAOH2 implements IDao<Paciente>{
                     " FROM PACIENTES");
             ResultSet rs= ps.executeQuery();
             while (rs.next()){
-                DomicilioDAOH2 domicilioDAOH2= new DomicilioDAOH2();
                 domicilio=domicilioDAOH2.buscarXId(rs.getInt(7));
-
                 paciente=new Paciente(rs.getInt(1),
                         rs.getString(2),rs.getString(3),
                         rs.getString(4),rs.getInt(5),
@@ -62,7 +66,6 @@ public class PacienteDAOH2 implements IDao<Paciente>{
             ps.setString(1,criterio);
             ResultSet rs= ps.executeQuery();
             while (rs.next()){
-                DomicilioDAOH2 domicilioDAOH2= new DomicilioDAOH2();
                 domicilio=domicilioDAOH2.buscarXId(rs.getInt(7));
 
                 paciente=new Paciente(rs.getInt(1),
@@ -99,7 +102,6 @@ public class PacienteDAOH2 implements IDao<Paciente>{
             ps.setInt(1,id);
             ResultSet rs= ps.executeQuery();
             while (rs.next()){
-                DomicilioDAOH2 domicilioDAOH2= new DomicilioDAOH2();
                 domicilio=domicilioDAOH2.buscarXId(rs.getInt(7));
 
                 paciente=new Paciente(rs.getInt(1),
@@ -129,7 +131,6 @@ public class PacienteDAOH2 implements IDao<Paciente>{
         try{
             connection = H2Aux.getConnection();
             //guardar el domicilio
-            DomicilioDAOH2 domicilioDAOH2 = new DomicilioDAOH2();
             domicilioDAOH2.guardar(paciente.getDomicilio());
             PreparedStatement ps= connection.prepareStatement("INSERT INTO " +
                     "PACIENTES (NOMBRE, APELLIDO, EMAIL, DNI, FECHA_INGRESO, DOMICILIO_ID)" +
@@ -164,7 +165,6 @@ public class PacienteDAOH2 implements IDao<Paciente>{
         Connection connection= null;
         try{
             connection = H2Aux.getConnection();
-            DomicilioDAOH2 domicilioDAOH2 = new DomicilioDAOH2();
             domicilioDAOH2.actualizar(paciente.getDomicilio());
             PreparedStatement ps = connection.prepareStatement("UPDATE PACIENTES " +
                     "SET APELLIDO=?, NOMBRE=?, EMAIL=?, DNI=?, FECHA_INGRESO=? WHERE ID=?");
@@ -173,8 +173,7 @@ public class PacienteDAOH2 implements IDao<Paciente>{
             ps.setString(3,paciente.getEmail());
             ps.setInt(4, paciente.getDni());
             ps.setDate(5, Date.valueOf(paciente.getFechaIngreso()));
-            ps.setInt(6, paciente.getDomicilio().getId());
-            ps.setInt(7, paciente.getId());
+            ps.setInt(6, paciente.getId());
             ps.execute();
         }
         catch (SQLException | ClassNotFoundException throwables) {

@@ -16,6 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/odontologos")
 public class OdontologoController {
+
+    // inyección x constructor
     private IOdontologoService odontologoService;
     @Autowired
     public OdontologoController(IOdontologoService odontologoService){ this.odontologoService = odontologoService; }

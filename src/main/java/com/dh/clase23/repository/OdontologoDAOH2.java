@@ -2,12 +2,13 @@ package com.dh.clase23.repository;
 
 import com.dh.clase23.dominio.Odontologo;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class OdontologoDAOH2 implements IDao<Odontologo> {
 
     @Override

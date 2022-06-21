@@ -11,6 +11,27 @@ public class Paciente {
     private LocalDate fechaIngreso;
     private Domicilio domicilio;
 
+    public Paciente(){}
+
+    public Paciente(String apellido, String nombre, String email, int dni, LocalDate fechaIngreso, Domicilio domicilio) {
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.email = email;
+        this.dni = dni;
+        this.fechaIngreso = fechaIngreso;
+        this.domicilio = domicilio;
+    }
+
+    public Paciente(int id, String apellido, String nombre, String email, int dni, LocalDate fechaIngreso, Domicilio domicilio) {
+        this.id = id;
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.email = email;
+        this.dni = dni;
+        this.fechaIngreso = fechaIngreso;
+        this.domicilio = domicilio;
+    }
+
     public int getId() {
         return id;
     }
@@ -64,27 +85,6 @@ public class Paciente {
     }
 
     public void setDomicilio(Domicilio domicilio) {
-        this.domicilio = domicilio;
-    }
-
-    public Paciente(){}
-
-    public Paciente(String apellido, String nombre, String email, int dni, LocalDate fechaIngreso, Domicilio domicilio) {
-        this.apellido = apellido;
-        this.nombre = nombre;
-        this.email = email;
-        this.dni = dni;
-        this.fechaIngreso = fechaIngreso;
-        this.domicilio = domicilio;
-    }
-
-    public Paciente(int id, String apellido, String nombre, String email, int dni, LocalDate fechaIngreso, Domicilio domicilio) {
-        this.id = id;
-        this.apellido = apellido;
-        this.nombre = nombre;
-        this.email = email;
-        this.dni = dni;
-        this.fechaIngreso = fechaIngreso;
         this.domicilio = domicilio;
     }
 }

@@ -2,11 +2,13 @@ package com.dh.clase23.repository;
 
 import com.dh.clase23.dominio.Domicilio;
 import com.dh.clase23.dominio.Paciente;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class DomicilioDAOH2 implements IDao<Domicilio> {
     @Override
     public List<Domicilio> listarElementos() {
