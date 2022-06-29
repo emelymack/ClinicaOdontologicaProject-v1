@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,8 +7,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/post_odontologo.js"></script>
-    <title>Alta de odontólogos</title>
+    <script type="text/javascript" src="/js/get_all_pacientes.js"></script>
+    <script type="text/javascript" src="/js/delete_paciente.js"></script>
+    <script type="text/javascript" src="/js/update_paciente.js"></script>
+    <title>Lista Pacientes</title>
 </head>
 <body>
 
@@ -21,7 +23,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownOdont" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Odontólogos</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownOdont">
-                    <a class="dropdown-item active" href="/post_odontologo.html">Agregar Odontólogo</a>
+                    <a class="dropdown-item" href="/post_odontologo.html">Agregar Odontólogo</a>
                     <a class="dropdown-item" href="/get_all_odontologos.html">Listar Odontólogos</a>
                 </div>
             </li>
@@ -29,38 +31,39 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPaciente" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pacientes</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownPaciente">
                     <a class="dropdown-item" href="/post_paciente.html">Agregar Paciente</a>
-                    <a class="dropdown-item" href="/get_all_pacientes.html">Listar Pacientes</a>
+                    <a class="dropdown-item active" href="/get_all_pacientes.html">Listar Pacientes</a>
                 </div>
             </li>
         </ul>
     </div>
 </nav>
 
-    <div class="container" style="margin-top:20px">
-        <div class="row">
-            <div class="col-sm-7">
-                <h2>Agregar Odontólogo</h2>
-                <form id="add_new_odontologo">
-                    <div class="form-group">
-                        <label class="control-label" for="apellido">Apellido:</label>
-                        <input class="form-control" type="text" id="apellido" placeholder="Ingrese el valor del apellido" name="apellido" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="nombre">Nombre:</label>
-                        <input class="form-control" type="text" id="nombre" placeholder="Ingrese el valor del nombre" name="nombre" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="matricula">Matrícula:</label>
-                        <input class="form-control" type="text" id="matricula" placeholder="Ingrese el valor de la matrícula" name="matricula" required>
-                    </div>
+<div class="container" style="margin-top:20px">
+    <div class="row">
+        <div class="col-sm">
+            <h2>Lista de Pacientes</h2>
+            <table class="table" style="margin-top:20px" id="pacienteTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Apellido</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>DNI</th>
+                    <th>Fecha Ingreso</th>
+                    <th>Domicilio</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="pacienteTBody">
 
-                    <button type="submit" class="btn btn-success" id="btn-add-new-odontologo">Registrar</button>
-                </form>
+                </tbody>
+            </table>
 
-            </div>
-            <div id="response" style="display:none; margin-top:10px">
-            </div>
+        </div>
+        <div id="response" style="display:none; margin-top:10px">
         </div>
     </div>
+</div>
 </body>
 </html>
